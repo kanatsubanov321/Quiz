@@ -5,19 +5,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "questionAndAnswer")
 public class QuestionAndAnswer {
     int id;
-    Quiz quiz;
-    Question question;
-    Answer answer;
+    int quizId;
+    int questionId;
+    int answerId;
     boolean isCorrect;
 
     public QuestionAndAnswer() {
     }
 
-    public QuestionAndAnswer(int id, Quiz quiz, Question question, Answer answer, boolean isCorrect) {
+    public QuestionAndAnswer(int id, int quizId, int questionId, int answerId, boolean isCorrect) {
         this.id = id;
-        this.quiz = quiz;
-        this.question = question;
-        this.answer = answer;
+        this.quizId = quizId;
+        this.questionId = questionId;
+        this.answerId = answerId;
         this.isCorrect = isCorrect;
     }
 
@@ -29,28 +29,28 @@ public class QuestionAndAnswer {
         this.id = id;
     }
 
-    public Quiz getQuiz() {
-        return quiz;
+    public int getQuizId() {
+        return quizId;
     }
 
-    public void setQuiz(Quiz quiz) {
-        this.quiz = quiz;
+    public void setQuizId(int quizId) {
+        this.quizId = quizId;
     }
 
-    public Question getQuestion() {
-        return question;
+    public int getQuestionId() {
+        return questionId;
     }
 
-    public void setQuestion(Question question) {
-        this.question = question;
+    public void setQuestionId(int questionId) {
+        this.questionId = questionId;
     }
 
-    public Answer getAnswer() {
-        return answer;
+    public int getAnswerId() {
+        return answerId;
     }
 
-    public void setAnswer(Answer answer) {
-        this.answer = answer;
+    public void setAnswerId(int answerId) {
+        this.answerId = answerId;
     }
 
     public boolean isCorrect() {

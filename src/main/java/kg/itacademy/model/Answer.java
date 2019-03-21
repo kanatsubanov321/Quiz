@@ -5,16 +5,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "answer")
 public class Answer {
     int id;
-    Question question;
+    int questionId;
     String text;
     boolean isCorrect;
 
     public Answer() {
     }
 
-    public Answer(int id, Question question, String text, boolean isCorrect) {
+    public Answer(int id, int questionId, String text, boolean isCorrect) {
         this.id = id;
-        this.question = question;
+        this.questionId = questionId;
         this.text = text;
         this.isCorrect = isCorrect;
     }
@@ -27,12 +27,12 @@ public class Answer {
         this.id = id;
     }
 
-    public Question getQuestion() {
-        return question;
+    public int getQuestionId() {
+        return questionId;
     }
 
-    public void setQuestion(Question question) {
-        this.question = question;
+    public void setQuestionId(int questionId) {
+        this.questionId = questionId;
     }
 
     public String getText() {

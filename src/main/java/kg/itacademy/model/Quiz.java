@@ -1,22 +1,24 @@
 package kg.itacademy.model;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @XmlRootElement(name = "quiz")
 public class Quiz {
     int id;
-    LocalDateTime dateTime;
-    User user;
+    Timestamp dateTime;
+    int userId;
     int totalGrade;
 
     public Quiz() {
     }
 
-    public Quiz(int id, LocalDateTime dateTime, User user, int totalGrade) {
+    public Quiz(int id, Timestamp dateTime, int userId, int totalGrade) {
         this.id = id;
         this.dateTime = dateTime;
-        this.user = user;
+        this.userId = userId;
         this.totalGrade = totalGrade;
     }
 
@@ -28,20 +30,20 @@ public class Quiz {
         this.id = id;
     }
 
-    public LocalDateTime getDateTime() {
+    public Timestamp getDateTime() {
         return dateTime;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
+    public void setDateTime(Timestamp dateTime) {
         this.dateTime = dateTime;
     }
 
-    public User getUser() {
-        return user;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public int getTotalGrade() {

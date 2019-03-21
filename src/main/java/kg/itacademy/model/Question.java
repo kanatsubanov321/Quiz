@@ -7,17 +7,17 @@ public class Question {
     int id;
     String text;
     String description;
-    Category category;
+    int categoryId;
     int grade;
 
     public Question() {
     }
 
-    public Question(int id, String text, String description, Category category, int grade) {
+    public Question(int id, String text, String description, int categoryId, int grade) {
         this.id = id;
         this.text = text;
         this.description = description;
-        this.category = category;
+        this.categoryId = categoryId;
         this.grade = grade;
     }
 
@@ -45,12 +45,12 @@ public class Question {
         this.description = description;
     }
 
-    public Category getCategory() {
-        return category;
+    public int getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
 
     public int getGrade() {
