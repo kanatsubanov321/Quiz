@@ -52,9 +52,7 @@ public class QuizDao extends DbConnector {
         }
         return quiz;
     }
-
-
-    public Quiz addQuiz(Quiz quiz) {
+    public boolean addQuiz(Quiz quiz) {
         String SQL =
                 "insert into quiz " +
                         "(date, user_id, total_grade) " +
@@ -71,9 +69,11 @@ public class QuizDao extends DbConnector {
 
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
+            return false;
         }
-        return quiz;
+        return true;
     }
+
     public boolean deleteQuiz(int quizId) {
         String SQL = "delete from quiz where id = ?";
         try (Connection conn = connect();

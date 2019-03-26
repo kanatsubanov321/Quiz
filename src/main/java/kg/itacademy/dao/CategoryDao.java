@@ -44,7 +44,7 @@ public class CategoryDao extends DbConnector {
         }
         return cat;
     }
-    public Category addCategory(Category category) {
+    public boolean addCategory(Category category) {
         String SQL =
                 "insert into categories " +
                         "(category_name) " +
@@ -59,10 +59,10 @@ public class CategoryDao extends DbConnector {
 
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
-                   }
-        return category;
+            return false;
+        }
+        return true;
     }
-
 
     public Category updateCategoryName(Category category) {
         String SQL = "update categories set category_name = '?' where id = '?'";

@@ -2,6 +2,7 @@ package kg.itacademy.service;
 
 import kg.itacademy.dao.QuestionDao;
 import kg.itacademy.model.Question;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
@@ -14,14 +15,19 @@ public class QuestionService {
         QuestionDao questionDao = new QuestionDao();
         return questionDao.getAllQuestions();
     }
+
     @POST
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Consumes({MediaType.APPLICATION_JSON})
     public String addQuestion(Question question) {
         QuestionDao db = new QuestionDao();
-        db.addQuestion(question);
-        return question.getText();
+        if (db.addQuestion(question)) {
+            db.addQuestion(question);
+            return "Question is successfully added";
+        }
+        return "Question is not added";
     }
+
 
     @PUT
     @Path("/updateQuestion")
@@ -32,6 +38,7 @@ public class QuestionService {
         db.updateQuestionText(question);
         return question.getText();
     }
+
     @GET
     @Path("/{questionId}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
@@ -39,6 +46,7 @@ public class QuestionService {
         QuestionDao questionDao = new QuestionDao();
         return questionDao.getQuestion(questionId);
     }
+
     @DELETE
     @Path("/{questionId}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})

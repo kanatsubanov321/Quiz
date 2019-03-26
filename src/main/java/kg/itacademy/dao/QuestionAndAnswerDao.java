@@ -55,8 +55,7 @@ public class QuestionAndAnswerDao extends DbConnector {
         return questionAndAnswer;
     }
 
-
-    public QuestionAndAnswer addQuesionAndAnswer(QuestionAndAnswer questionAndAnswer) {
+    public boolean addQuestionAndAnswer(QuestionAndAnswer questionAndAnswer) {
         String SQL =
                 "insert into question_and_answer " +
                         "(quiz_id, question_id, answer_id) " +
@@ -73,8 +72,9 @@ public class QuestionAndAnswerDao extends DbConnector {
 
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
+            return false;
         }
-        return questionAndAnswer;
+        return true;
     }
 
     public boolean deleteQuestionAndAnswer(int questionAndAnswerId) {

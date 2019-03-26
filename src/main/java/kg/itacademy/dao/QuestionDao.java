@@ -1,5 +1,7 @@
 package kg.itacademy.dao;
 
+import kg.itacademy.model.Answer;
+import kg.itacademy.model.Category;
 import kg.itacademy.model.Question;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -51,8 +53,7 @@ public class QuestionDao extends DbConnector {
         }
         return ques;
     }
-
-    public Question addQuestion(Question question) {
+    public boolean addQuestion(Question question) {
         String SQL =
                 "insert into questions " +
                         "(text, description, category_id, grade) " +
@@ -70,9 +71,32 @@ public class QuestionDao extends DbConnector {
 
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
+            return false;
         }
-        return question;
+        return true;
     }
+
+    public boolean checkQuestion(Category category, Question question) {
+        boolean check = false;
+        String SQL =
+                "select categories.id, questions.id from categories " +
+                        "join questions on categories.id = questions.id;";
+        try (Connection conn = connect()) {
+            PreparedStatement stmt = conn.prepareStatement(SQL);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                if (category.getId() == question.getCategoryId()) {
+                    check = true;
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return check;
+        }
+        return check;
+    }
+
+
     public Question updateQuestionText(Question question) {
         String SQL = "update questions set text = '?' where id = '?'";
 

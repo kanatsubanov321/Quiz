@@ -1,6 +1,7 @@
 package kg.itacademy.dao;
 
 import kg.itacademy.model.Answer;
+import kg.itacademy.model.Question;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -54,7 +55,27 @@ public class AnswerDao extends DbConnector {
         return ans;
     }
 
-    public Answer addAnswer(Answer answer) {
+    public boolean checkAnswer(Answer answer, Question question) {
+        String SQL =
+                "select answers.id, questions.id from answers " +
+                        "join questions on answers.id = questions.id;";
+        try (Connection conn = connect()) {
+            PreparedStatement stmt = conn.prepareStatement(SQL);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                if (question.getId() == answer.getQuestionId()) {
+                    answer.setCorrect(true);
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return false;
+        }
+        return answer.isCorrect();
+    }
+
+
+    public boolean addAnswer(Answer answer) {
         String SQL =
                 "insert into answers " +
                         "(question_id, text, is_correct) " +
@@ -62,7 +83,6 @@ public class AnswerDao extends DbConnector {
         try (Connection conn = connect()) {
             PreparedStatement stmt =
                     conn.prepareStatement(SQL);
-
             stmt.setInt(1, answer.getQuestionId());
             stmt.setString(2, answer.getText());
             stmt.setBoolean(3, answer.isCorrect());
@@ -71,10 +91,10 @@ public class AnswerDao extends DbConnector {
 
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
+            return false;
         }
-        return answer;
+        return true;
     }
-
     public Answer updateAnswerText(Answer answer) {
         String SQL = "update answers set text = '?' where id = '?'";
 

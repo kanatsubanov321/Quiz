@@ -14,14 +14,16 @@ public class AnswerService {
         AnswerDao answerDao = new AnswerDao();
         return answerDao.getAllAnswers();
     }
-
     @POST
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Consumes({MediaType.APPLICATION_JSON})
     public String addAnswers(Answer answer) {
         AnswerDao db = new AnswerDao();
-        db.addAnswer(answer);
-        return answer.getText();
+        if (db.addAnswer(answer)) {
+            db.addAnswer(answer);
+            return "Answer is added";
+        }
+        return "Answer is not added";
     }
 
     @GET

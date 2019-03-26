@@ -35,9 +35,13 @@ public class CategoryService {
     @Consumes({MediaType.APPLICATION_JSON})
     public String addCategory(Category category) {
         CategoryDao db = new CategoryDao();
-        db.addCategory(category);
-        return category.getName();
+        if (db.addCategory(category)) {
+            db.addCategory(category);
+            return "Category is added";
+        }
+        return "Category is not added";
     }
+
     @DELETE
     @Path("/{categoryId}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})

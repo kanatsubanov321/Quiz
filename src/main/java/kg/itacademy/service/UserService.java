@@ -26,8 +26,11 @@ public class UserService {
     @Consumes({MediaType.APPLICATION_JSON})
     public String addUser(User user) {
         UserDao db = new UserDao();
-        db.addUser(user);
-        return user.getLogin() + " " + user.getEmail();
+        if (db.addUser(user)) {
+            db.addUser(user);
+            return "Registration is successfully";
+        }
+        return "Registration is failed";
     }
     @DELETE
     @Path("/{userId}")
