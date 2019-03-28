@@ -1,5 +1,6 @@
 package kg.itacademy.service;
 
+import kg.itacademy.dao.CategoryDao;
 import kg.itacademy.dao.QuestionDao;
 import kg.itacademy.model.Question;
 
@@ -21,13 +22,9 @@ public class QuestionService {
     @Consumes({MediaType.APPLICATION_JSON})
     public String addQuestion(Question question) {
         QuestionDao db = new QuestionDao();
-        if (db.addQuestion(question)) {
             db.addQuestion(question);
             return "Question is successfully added";
         }
-        return "Question is not added";
-    }
-
 
     @PUT
     @Path("/updateQuestion")
@@ -44,16 +41,26 @@ public class QuestionService {
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Question getQuestion(@PathParam("questionId") Integer questionId) {
         QuestionDao questionDao = new QuestionDao();
+        CategoryDao categoryDao = new CategoryDao();
+        if(!questionDao.checkQuestion(categoryDao.getCategory(),questionDao.getQuestion())){
+            return null;
+        }
         return questionDao.getQuestion(questionId);
     }
+//    @GET
+//    @Path("/{questionId}")
+//    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+//    public Question getQuestion(@PathParam("questionId") Integer questionId) {
+//        QuestionDao questionDao = new QuestionDao();
+//        return questionDao.getQuestion(questionId);
+//    }
 
     @DELETE
     @Path("/{questionId}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public void deleteQuestion(@PathParam("questionId") Integer questionId) {
         QuestionDao questionDao = new QuestionDao();
-        if (questionDao.deleteQuestion(questionId)) {
             questionDao.deleteQuestion(questionId);
         }
     }
-}
+

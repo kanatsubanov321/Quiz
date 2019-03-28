@@ -1,9 +1,7 @@
 package kg.itacademy.model;
 
 import javax.xml.bind.annotation.XmlRootElement;
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 @XmlRootElement(name = "quiz")
 public class Quiz {

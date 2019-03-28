@@ -14,6 +14,7 @@ public class UserService {
         UserDao userDao = new UserDao();
         return userDao.getAllUsers();
     }
+
     @GET
     @Path("/{userId}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
@@ -21,24 +22,21 @@ public class UserService {
         UserDao userDao = new UserDao();
         return userDao.getUser(userId);
     }
+
     @POST
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Consumes({MediaType.APPLICATION_JSON})
     public String addUser(User user) {
         UserDao db = new UserDao();
-        if (db.addUser(user)) {
-            db.addUser(user);
-            return "Registration is successfully";
-        }
-        return "Registration is failed";
+        db.addUser(user);
+        return "Registration is successfully";
     }
+
     @DELETE
     @Path("/{userId}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public void deleteUser(@PathParam("userId") Integer userId) {
         UserDao userDao = new UserDao();
-        if (userDao.deleteUser(userId)) {
-            userDao.deleteUser(userId);
-        }
+        userDao.deleteUser(userId);
     }
 }

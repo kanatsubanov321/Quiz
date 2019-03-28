@@ -2,7 +2,6 @@ package kg.itacademy.service;
 
 import kg.itacademy.dao.QuizDao;
 import kg.itacademy.model.Quiz;
-
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
@@ -29,11 +28,8 @@ public class QuizService {
     @Consumes({MediaType.APPLICATION_JSON})
     public String addQuiz(Quiz quiz) {
         QuizDao db = new QuizDao();
-        if (db.addQuiz(quiz)) {
             db.addQuiz(quiz);
             return "Quiz is added";
-        }
-        return "Quiz is not added";
     }
 
     @DELETE
@@ -41,8 +37,7 @@ public class QuizService {
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public void deleteQuiz(@PathParam("quizId") Integer quizId) {
         QuizDao quizDao = new QuizDao();
-        if (quizDao.deleteQuiz(quizId)) {
             quizDao.deleteQuiz(quizId);
         }
     }
-}
+

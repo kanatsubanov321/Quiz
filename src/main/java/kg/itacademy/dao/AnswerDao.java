@@ -17,7 +17,7 @@ public class AnswerDao extends DbConnector {
         try (Connection conn = connect()) {
             PreparedStatement stmt = conn.prepareStatement(SQL);
             ResultSet rs = stmt.executeQuery();
-            Answer ans = null;
+            Answer ans;
             while (rs.next()) {
                 ans = new Answer(rs.getInt("id"),
                         rs.getInt("question_id"),
@@ -54,6 +54,25 @@ public class AnswerDao extends DbConnector {
         }
         return ans;
     }
+    public Answer getAnswer() {
+        Answer ans = null;
+        String SQL = "SELECT * FROM answers where id = ?";
+        try (Connection conn = connect()) {
+            PreparedStatement stmt = conn.prepareStatement(SQL);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                ans = new Answer(rs.getInt("id"),
+                        rs.getInt("question_id"),
+                        rs.getString("text"),
+                        rs.getBoolean("is_correct")
+                );
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return null;
+        }
+        return ans;
+    }
 
     public boolean checkAnswer(Answer answer, Question question) {
         String SQL =
@@ -64,18 +83,18 @@ public class AnswerDao extends DbConnector {
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 if (question.getId() == answer.getQuestionId()) {
-                    answer.setCorrect(true);
+                    return true;
                 }
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             return false;
         }
-        return answer.isCorrect();
+        return false;
     }
 
 
-    public boolean addAnswer(Answer answer) {
+    public Answer addAnswer(Answer answer) {
         String SQL =
                 "insert into answers " +
                         "(question_id, text, is_correct) " +
@@ -91,9 +110,8 @@ public class AnswerDao extends DbConnector {
 
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
-            return false;
         }
-        return true;
+        return answer;
     }
     public Answer updateAnswerText(Answer answer) {
         String SQL = "update answers set text = '?' where id = '?'";

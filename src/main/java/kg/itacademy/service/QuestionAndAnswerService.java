@@ -29,11 +29,8 @@ public class QuestionAndAnswerService {
     @Consumes({MediaType.APPLICATION_JSON})
     public String addQuestionAndAnswer(QuestionAndAnswer questionAndAnswer) {
         QuestionAndAnswerDao db = new QuestionAndAnswerDao();
-        if (db.addQuestionAndAnswer(questionAndAnswer)) {
             db.addQuestionAndAnswer(questionAndAnswer);
             return "Question and Answer is successfully added";
-        }
-        return "Question and Answer is not added";
     }
 
     @DELETE
@@ -41,8 +38,6 @@ public class QuestionAndAnswerService {
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public void deleteQuestionAndAnswer(@PathParam("questionAndAnswerId") Integer questionAndAnswerId) {
         QuestionAndAnswerDao questionAndAnswerDao = new QuestionAndAnswerDao();
-        if (questionAndAnswerDao.deleteQuestionAndAnswer(questionAndAnswerId)) {
             questionAndAnswerDao.deleteQuestionAndAnswer(questionAndAnswerId);
-        }
     }
 }

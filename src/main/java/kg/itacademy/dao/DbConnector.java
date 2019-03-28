@@ -5,9 +5,12 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DbConnector {
-    private final String url = "jdbc:postgresql://138.68.52.248:5432/gr33";
-    private final String user = "gruppa33";
-    private final String password = "5e43qwe53";
+//    private final String url = "jdbc:postgresql://138.68.52.248:5432/gr33";
+//    private final String user = "gruppa33";
+//    private final String password = "5e43qwe53";
+    public final String url = "jdbc:postgresql://localhost:5432/";
+    public final String user = "postgres";
+    public final String password = "0778099606k";
 
     public Connection connect() {
         Connection conn = null;

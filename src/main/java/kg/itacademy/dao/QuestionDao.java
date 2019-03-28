@@ -3,6 +3,8 @@ package kg.itacademy.dao;
 import kg.itacademy.model.Answer;
 import kg.itacademy.model.Category;
 import kg.itacademy.model.Question;
+import kg.itacademy.model.Quiz;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -53,11 +55,30 @@ public class QuestionDao extends DbConnector {
         }
         return ques;
     }
+    public Question getQuestion() {
+        Question ques = null;
+        String SQL = "SELECT * FROM questions where id = ?";
+        try (Connection conn = connect()) {
+            PreparedStatement stmt = conn.prepareStatement(SQL);
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()) {
+                ques = new Question(rs.getInt("id"),
+                        rs.getString("text"),
+                        rs.getString("description"),
+                        rs.getInt("category_id"),
+                        rs.getInt("grade"));
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return null;
+        }
+        return ques;
+    }
     public boolean addQuestion(Question question) {
         String SQL =
                 "insert into questions " +
                         "(text, description, category_id, grade) " +
-                        "values (?, ?, ?, ?, ?)";
+                        "values (?, ?, ?, ?)";
         try (Connection conn = connect()) {
             PreparedStatement stmt =
                     conn.prepareStatement(SQL);
@@ -95,7 +116,6 @@ public class QuestionDao extends DbConnector {
         }
         return check;
     }
-
 
     public Question updateQuestionText(Question question) {
         String SQL = "update questions set text = '?' where id = '?'";

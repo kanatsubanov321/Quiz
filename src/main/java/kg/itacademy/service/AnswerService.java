@@ -1,7 +1,10 @@
 package kg.itacademy.service;
 
 import kg.itacademy.dao.AnswerDao;
+import kg.itacademy.dao.QuestionDao;
 import kg.itacademy.model.Answer;
+import kg.itacademy.model.Question;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
@@ -19,11 +22,8 @@ public class AnswerService {
     @Consumes({MediaType.APPLICATION_JSON})
     public String addAnswers(Answer answer) {
         AnswerDao db = new AnswerDao();
-        if (db.addAnswer(answer)) {
             db.addAnswer(answer);
             return "Answer is added";
-        }
-        return "Answer is not added";
     }
 
     @GET
@@ -31,8 +31,19 @@ public class AnswerService {
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Answer getAnswer(@PathParam("answerId") Integer answerId) {
         AnswerDao answerDao = new AnswerDao();
+        QuestionDao questionDao = new QuestionDao();
+        if(!answerDao.checkAnswer(answerDao.getAnswer(),questionDao.getQuestion())) {
+            return null;
+        }
         return answerDao.getAnswer(answerId);
     }
+//    @GET
+//    @Path("/{answerId}")
+//    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+//    public Answer getAnswer(@PathParam("answerId") Integer answerId) {
+//        AnswerDao answerDao = new AnswerDao();
+//        return answerDao.getAnswer(answerId);
+//    }
 
     @PUT
     @Path("/updateAnswer")
@@ -49,8 +60,6 @@ public class AnswerService {
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public void deleteAnswer(@PathParam("answerId") Integer answerId) {
         AnswerDao answerDao = new AnswerDao();
-        if (answerDao.deleteAnswer(answerId)) {
-            answerDao.deleteAnswer(answerId);
-        }
+        answerDao.deleteAnswer(answerId);
     }
 }

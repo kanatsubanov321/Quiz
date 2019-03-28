@@ -44,6 +44,22 @@ public class CategoryDao extends DbConnector {
         }
         return cat;
     }
+    public Category getCategory() {
+        Category cat = null;
+        String SQL = "SELECT * FROM categories";
+        try (Connection conn = connect()) {
+            PreparedStatement stmt = conn.prepareStatement(SQL);
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()) {
+                cat = new Category(rs.getInt("id"),
+                        rs.getString("category_name")
+                );
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return cat;
+    }
     public boolean addCategory(Category category) {
         String SQL =
                 "insert into categories " +

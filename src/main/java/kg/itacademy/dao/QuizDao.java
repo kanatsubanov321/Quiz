@@ -1,5 +1,7 @@
 package kg.itacademy.dao;
 
+import kg.itacademy.model.Answer;
+import kg.itacademy.model.Question;
 import kg.itacademy.model.Quiz;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -31,6 +33,21 @@ public class QuizDao extends DbConnector {
         }
         return quizzes;
     }
+    public int getTotalGrade(Answer answer, int totalGrade, Question question) {
+        String SQL = "select totalGrade from quiz";
+        try (Connection conn = connect()) {
+            PreparedStatement stmt = conn.prepareStatement(SQL);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                if (answer.isCorrect()) {
+                    totalGrade += question.getGrade();
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return totalGrade;
+    }
 
     public Quiz getQuiz(int quizId) {
         Quiz quiz = null;
@@ -60,10 +77,14 @@ public class QuizDao extends DbConnector {
         try (Connection conn = connect()) {
             PreparedStatement stmt =
                     conn.prepareStatement(SQL);
+            QuizDao quizDao = new QuizDao();
+            AnswerDao answerDao = new AnswerDao();
+            QuestionDao questionDao = new QuestionDao();
+            int totalGrade = quizDao.getTotalGrade(answerDao.getAnswer(),quiz.getTotalGrade(),
+                    questionDao.getQuestion());
 
-            stmt.setTimestamp(1, quiz.getDateTime());
-            stmt.setInt(2, quiz.getUserId());
-            stmt.setInt(3, quiz.getTotalGrade());
+            stmt.setInt(1, quiz.getUserId());
+            stmt.setInt(2, totalGrade);
             stmt.executeUpdate();
             System.out.println("Successfully");
 
